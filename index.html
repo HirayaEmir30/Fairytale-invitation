@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Once Upon a Time – Invitation</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #263b32, #52664d);
+      color: #fff5df;
+      font-family: Georgia, serif;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #ead7ae;
+      margin-bottom: 25px;
+    }
+
+    #book-container {
+      width: 100%;
+      max-width: 1000px;
+      height: 650px;
+      margin: 0 auto;
+    }
+
+    #book {
+      margin: auto;
+    }
+
+    .controls {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+    }
+
+    button {
+      background: #c6a15b;
+      color: #263b32;
+      border: none;
+      padding: 12px 23px;
+      border-radius: 25px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f4c7b2;
+    }
+
+    #page-number {
+      color: #fff5df;
+      min-width: 90px;
+    }
+
+    .hint {
+      color: #ead7ae;
+      font-size: 13px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 5px; }
+      h1 { font-size: 22px; }
+      #book-container { height: 480px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Once Upon a Time...</h1>
+  <div class="subtitle">A Magical Birthday Invitation</div>
+
+  <div id="book-container">
+    <div id="book"></div>
+  </div>
+
+  <div class="controls">
+    <button onclick="previousPage()">&#8592; Previous</button>
+    <span id="page-number">Cover</span>
+    <button onclick="nextPage()">Next &#8594;</button>
+  </div>
+
+  <div class="hint">
+    Turn the pages by clicking or dragging the corners of the book.
+  </div>
+
+  <script>
+    const blankPage =
+      "data:image/svg+xml;charset=utf-8," +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="850">' +
+        '<rect width="100%" height="100%" fill="#FFF5DF"/>' +
+        '</svg>'
+      );
+
+    const pages = [
+      "page1.png",
+      "page2.png",
+      "page3.png",
+      "page4.png",
+      blankPage,
+      "page5.png"
+    ];
+
+    const book = new St.PageFlip(
+      document.getElementById("book"),
+      {
+        width: 420,
+        height: 594,
+        size: "stretch",
+        minWidth: 280,
+        maxWidth: 900,
+        minHeight: 396,
+        maxHeight: 1200,
+        drawShadow: true,
+        maxShadowOpacity: 0.45,
+        showCover: true,
+        flippingTime: 1000,
+        usePortrait: true,
+        autoSize: true,
+        mobileScrollSupport: false
+      }
+    );
+
+    book.loadFromImages(pages);
+
+    function previousPage() {
+      book.flipPrev();
+    }
+
+    function nextPage() {
+      book.flipNext();
+    }
+
+    function updatePage(event) {
+      document.getElementById("page-number").textContent =
+        "Page " + (event.data + 1) + " of 6";
+    }
+
+    book.on("flip", updatePage);
+  </script>
+
+</body>
+</html>
